@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nopp</title>
+    <!-- Geist Font Entegrasyonu -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vercel/geist@latest/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0A0A0C;
+            font-family: 'Geist', sans-serif;
+            color: #F2F2F5;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pulse-orange {
+            color: #FF5500;
+        }
+        .dim-text {
+            color: #7D7D85;
+        }
+        /* Kalp Atışı / Nabız Animasyonu */
+        @keyframes heartbeat {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 15px rgba(255, 85, 0, 0.6)); }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .animate-heartbeat {
+            animation: heartbeat 2.5s ease-in-out infinite;
+        }
+        /* Işık Patlaması Efekti */
+        .flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #FF5500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2.5s ease-in-out;
+            z-index: 50;
+        }
+        .flash-active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between items-center p-6 m-0 overflow-hidden relative">
+
+    <!-- Işık Patlaması Katmanı -->
+    <div id="flashOverlay" class="flash-overlay"></div>
+
+    <!-- Üst Boşluk Dengeleyicisi -->
+    <div></div>
+
+    <!-- Merkez Logosu ve Giriş Kapısı -->
+    <main class="flex flex-col items-center cursor-pointer group transition-opacity duration-700" id="startBtn">
+        <div class="flex items-center space-x-2 tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-semibold lowercase">nopp</h1>
+            <!-- Turuncu Oynatma Simgesi (Gizli A) -->
+            <span class="text-3xl sm:text-4xl pulse-orange animate-heartbeat">▶</span>
+        </div>
+        <!-- Motto -->
+        <p class="mt-3 text-xs sm:text-sm dim-text tracking-widest lowercase">
+            no player plays alone
+        </p>
+    </main>
+
+    <!-- En Alt Güvence Notu -->
+    <footer class="w-full text-center pb-2 transition-opacity duration-700" id="footerText">
+        <div class="flex justify-center space-x-6 text-[11px] sm:text-xs dim-text lowercase tracking-wide">
+            <span>açık kaynak kod güvencesi</span>
+            <span>•</span>
+            <span>cihaz tabanlı şifreleme</span>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('startBtn').addEventListener('click', function() {
+            // 1. Dokunsal Senkronizasyon (Haptic Feedback - Tık-tık ritmi)
+            if (window.navigator && window.navigator.vibrate) {
+                window.navigator.vibrate([40, 60, 40]);
+            }
+
+            // 2. Yazıları pürüzsüzce sil
+            document.getElementById('startBtn').style.opacity = '0';
+            document.getElementById('footerText').style.opacity = '0';
+
+            // 3. Işık Patlaması ve Kalp Atışı Geçiş Ritmi (2.5 Saniye)
+            const flash = document.getElementById('flashOverlay');
+            setTimeout(() => {
+                flash.classList.add('flash-active');
+            }, 100);
+
+            // 4. Ritmin Sonunda Öz İfade Katmanına ("tam şu an.") Geçiş Simülasyonu
+            setTimeout(() => {
+                alert("tünel açılıyor: 'tam şu an.' katmanına geçildi.");
+                location.reload(); // Test için sayfayı yeniler
+            }, 2600);
+        });
+    </script>
+</body>
+</html>
