@@ -1,106 +1,235 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nopp</title>
-    <!-- Geist Font Entegrasyonu -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vercel/geist@latest/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #0A0A0C;
-            font-family: 'Geist', sans-serif;
-            color: #F2F2F5;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .pulse-orange {
-            color: #FF5500;
-        }
-        .dim-text {
-            color: #7D7D85;
-        }
-        /* Kalp Atışı / Nabız Animasyonu */
-        @keyframes heartbeat {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 15px rgba(255, 85, 0, 0.6)); }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-        .animate-heartbeat {
-            animation: heartbeat 2.5s ease-in-out infinite;
-        }
-        /* Işık Patlaması Efekti */
-        .flash-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #FF5500;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 2.5s ease-in-out;
-            z-index: 50;
-        }
-        .flash-active {
-            opacity: 1;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0a0a0c">
+  <meta name="description" content="NOPPA — No player plays alone. Oyuncu bul, takımını kur, birlikte oyna.">
+  <title>NOPPA — No player plays alone</title>
+  <style>
+    :root{color-scheme:dark;--bg:#09090b;--panel:#121216;--panel2:#19191f;--line:#292930;--text:#f5f5f7;--muted:#9999a5;--orange:#ff5a1f;--orange2:#ff7a45;--green:#8ee6b0;--radius:22px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 82% 4%,rgba(255,90,31,.11),transparent 28%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--orange2);outline-offset:3px}
+    .shell{max-width:1180px;margin:auto;padding:0 28px}
+    header{height:82px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07)}
+    .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text);font-weight:850;font-size:25px;letter-spacing:-1.5px}
+    .play-a{display:inline-grid;place-items:center;width:27px;height:27px;color:var(--orange);font-size:22px;filter:drop-shadow(0 0 10px rgba(255,90,31,.28))}
+    .brand-note{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-left:5px;font-weight:650}
+    .header-right{display:flex;align-items:center;gap:12px}
+    .status-pill{border:1px solid var(--line);border-radius:99px;padding:7px 11px;color:var(--muted);font-size:12px;display:flex;gap:8px;align-items:center}
+    .status-dot{width:7px;height:7px;background:#767680;border-radius:50%}
+    .profile-btn,.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;transition:transform .15s,background .15s,border-color .15s}
+    .profile-btn{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+    .btn:hover,.profile-btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--orange);color:#1a0a04;box-shadow:0 8px 28px rgba(255,90,31,.13)}
+    .btn-primary:hover{background:var(--orange2)}
+    .btn-secondary{background:#202026;color:var(--text);border:1px solid #33333c}
+    .btn-quiet{background:transparent;color:var(--muted);border:1px solid var(--line)}
+    main{padding:58px 0 70px}
+    .eyebrow{color:var(--orange2);font-size:11px;font-weight:850;letter-spacing:2.2px;text-transform:uppercase;display:flex;align-items:center;gap:9px}
+    .eyebrow:before{content:"";width:20px;height:1px;background:var(--orange)}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:30px 0 64px}
+    h1{font-size:clamp(42px,6.3vw,76px);line-height:.99;letter-spacing:-4.5px;margin:22px 0 20px;max-width:680px}
+    h1 .accent{color:var(--orange)}
+    .hero-copy{color:#b7b7c0;max-width:510px;font-size:17px;line-height:1.8;margin:0 0 27px}
+    .hero-actions{display:flex;gap:11px;flex-wrap:wrap}
+    .microcopy{font-size:11px;color:#73737f;margin-top:15px}
+    .hero-art{min-height:340px;position:relative;display:grid;place-items:center}
+    .orbit{position:absolute;width:290px;height:290px;border:1px solid rgba(255,90,31,.23);border-radius:50%;transform:rotate(-24deg)}
+    .orbit:before,.orbit:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;inset:24px}
+    .orbit:after{inset:55px;border-color:rgba(255,90,31,.13)}
+    .core{width:172px;height:172px;border-radius:44px;transform:rotate(-8deg);display:grid;place-items:center;background:linear-gradient(145deg,#242127,#111114);border:1px solid #3a2b28;box-shadow:0 20px 90px rgba(255,75,20,.13),inset 0 1px 0 rgba(255,255,255,.09);z-index:1}
+    .core-mark{font-size:48px;font-weight:900;letter-spacing:-4px;transform:rotate(8deg)}
+    .core-mark span{color:var(--orange)}
+    .float-card{position:absolute;z-index:2;background:rgba(24,24,29,.94);border:1px solid #333139;border-radius:14px;padding:12px 14px;box-shadow:0 12px 32px #0005}
+    .float-card small{display:block;color:var(--muted);font-size:10px;margin-bottom:3px}
+    .float-card strong{font-size:13px}
+    .float-one{top:40px;left:2px}.float-two{right:0;bottom:43px}
+    .float-icon{color:var(--orange);margin-right:5px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:18px}
+    h2{font-size:25px;letter-spacing:-.9px;margin:0}
+    .section-sub{font-size:13px;color:var(--muted);margin:5px 0 0}
+    .game-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+    .game-card{position:relative;text-align:left;min-height:146px;border:1px solid var(--line);border-radius:17px;padding:17px;background:linear-gradient(145deg,#17171d,#101014);color:var(--text);overflow:hidden;transition:border-color .15s,transform .15s}
+    .game-card:hover{transform:translateY(-3px);border-color:#6b3b2c}
+    .game-card.selected{border-color:var(--orange);box-shadow:inset 0 0 0 1px var(--orange);background:linear-gradient(145deg,#261812,#141114)}
+    .game-glyph{font-size:24px;width:43px;height:43px;display:grid;place-items:center;background:#242329;border-radius:13px;margin-bottom:16px}
+    .game-name{display:block;font-size:14px;font-weight:800}
+    .game-type{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+    .selected-check{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;border:1px solid #555;color:transparent;font-size:11px;display:grid;place-items:center}
+    .selected .selected-check{background:var(--orange);border-color:var(--orange);color:#180902}
+    .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:45px}
+    .action-card{padding:24px;border:1px solid var(--line);background:var(--panel);border-radius:var(--radius);display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .action-card h3{font-size:17px;margin:0 0 6px;letter-spacing:-.4px}
+    .action-card p{font-size:13px;color:var(--muted);margin:0;max-width:390px}
+    .action-symbol{flex:0 0 48px;height:48px;border-radius:15px;background:#2a1a15;color:var(--orange2);display:grid;place-items:center;font-size:23px}
+    .panel-view{display:none;max-width:760px;margin:16px auto 0}
+    .panel-view.active{display:block}
+    .panel-card{border:1px solid var(--line);background:linear-gradient(145deg,#151519,#101013);border-radius:24px;padding:clamp(22px,4vw,38px)}
+    .back{background:none;border:0;color:var(--muted);padding:0;margin-bottom:24px}
+    .back:hover{color:var(--text)}
+    .panel-card h2{font-size:32px;letter-spacing:-1.4px;margin:12px 0}
+    .panel-card .lead{color:var(--muted);margin:0 0 25px;line-height:1.7}
+    .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .field{display:flex;flex-direction:column;gap:7px;margin-bottom:17px}
+    .field label{font-size:12px;color:#c9c9d0;font-weight:750}
+    .field input,.field select{width:100%;border:1px solid #35353e;background:#0b0b0e;border-radius:11px;padding:12px 13px;color:var(--text);min-height:46px}
+    .field input::placeholder{color:#656570}
+    .wide{width:100%}
+    .notice{font-size:12px;line-height:1.6;color:#bcbcc5;background:#1a1717;border:1px solid #3a2a25;border-radius:12px;padding:13px 15px;margin:16px 0}
+    .notice strong{color:var(--orange2)}
+    .result-icon{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;background:#2b1b15;color:var(--orange2);font-size:30px;margin-bottom:18px}
+    .room-code{font-size:30px;font-weight:900;letter-spacing:5px;padding:16px;background:#09090b;border:1px dashed #5d3a2b;border-radius:14px;text-align:center;margin:18px 0}
+    .profile-summary{display:flex;align-items:center;gap:14px;padding:16px;background:#0c0c0f;border:1px solid var(--line);border-radius:15px;margin:20px 0}
+    .avatar{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#ff7a45,#a82d08);display:grid;place-items:center;color:#210c04;font-weight:900;font-size:20px}
+    .profile-summary strong{display:block}.profile-summary small{color:var(--muted)}
+    .empty-note{border:1px dashed #393941;border-radius:16px;padding:20px;color:var(--muted);font-size:13px;text-align:center}
+    footer{border-top:1px solid rgba(255,255,255,.07);padding:22px 0 28px;display:flex;justify-content:space-between;gap:16px;color:#73737f;font-size:11px}
+    .footer-brand{color:#a7a7b0;font-weight:800;letter-spacing:1px}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:10;max-width:calc(100vw - 30px);background:#24242b;border:1px solid #45454e;border-radius:13px;padding:13px 17px;color:var(--text);font-size:13px;box-shadow:0 12px 40px #0009;transition:.2s}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .hidden{display:none!important}
+    @media(max-width:850px){.hero{grid-template-columns:1fr;gap:15px;padding-top:24px}.hero-art{min-height:270px;order:-1}.orbit{width:230px;height:230px}.core{width:140px;height:140px;border-radius:36px}.core-mark{font-size:40px}.float-one{left:10%;top:20px}.float-two{right:7%;bottom:20px}.game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.brand-note{display:none}}
+    @media(max-width:560px){.shell{padding:0 17px}header{height:70px}.status-pill{display:none}.brand{font-size:23px}main{padding:32px 0 46px}h1{letter-spacing:-2.7px;font-size:47px}.hero-copy{font-size:15px}.hero{padding-bottom:40px}.hero-art{min-height:225px}.orbit{width:200px;height:200px}.core{width:120px;height:120px}.core-mark{font-size:35px}.float-card{padding:9px 11px}.float-one{left:0}.float-two{right:0}.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-card{min-height:125px;padding:13px}.game-glyph{margin-bottom:11px}.action-grid{grid-template-columns:1fr;margin-top:30px}.action-card{padding:18px}.section-head{align-items:start;flex-direction:column}.field-grid{grid-template-columns:1fr;gap:0}.panel-card h2{font-size:28px}footer{flex-direction:column;gap:8px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between items-center p-6 m-0 overflow-hidden relative">
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="#" id="homeLink" aria-label="NOPPA ana sayfa"><span>nopp</span><span class="play-a" aria-hidden="true">▶</span><span class="brand-note">only us</span></a>
+      <div class="header-right">
+        <div class="status-pill"><span class="status-dot"></span>İlk sürüm · Ön izleme</div>
+        <button class="profile-btn" id="profileOpen">Profilim <span aria-hidden="true">↗</span></button>
+      </div>
+    </header>
 
-    <!-- Işık Patlaması Katmanı -->
-    <div id="flashOverlay" class="flash-overlay"></div>
-
-    <!-- Üst Boşluk Dengeleyicisi -->
-    <div></div>
-
-    <!-- Merkez Logosu ve Giriş Kapısı -->
-    <main class="flex flex-col items-center cursor-pointer group transition-opacity duration-700" id="startBtn">
-        <div class="flex items-center space-x-2 tracking-tight">
-            <h1 class="text-4xl sm:text-5xl font-semibold lowercase">nopp</h1>
-            <!-- Turuncu Oynatma Simgesi (Gizli A) -->
-            <span class="text-3xl sm:text-4xl pulse-orange animate-heartbeat">▶</span>
+    <main>
+      <section id="homeView">
+        <div class="hero">
+          <div>
+            <div class="eyebrow">Oyunun daha iyi, birlikte</div>
+            <h1>Hiçbir oyuncu<br><span class="accent">yalnız oynamaz.</span></h1>
+            <p class="hero-copy">Tek başına girme. Aynı oyunu seven oyuncularla tanış, takımını kur ve birlikte oynamak için ilk adımı at.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="findStart">Takım arkadaşı bul <span aria-hidden="true">↗</span></button>
+              <button class="btn btn-secondary" id="roomStart">Lobi oluştur <span aria-hidden="true">＋</span></button>
+            </div>
+            <p class="microcopy">NOPPA · ONLY US — Oyun, oyuncularla güzelleşir.</p>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="orbit"></div>
+            <div class="core"><div class="core-mark">nopp<span>▶</span></div></div>
+            <div class="float-card float-one"><small><span class="float-icon">✦</span>Birlikte oyna</small><strong>Takımın burada başlar.</strong></div>
+            <div class="float-card float-two"><small>OYUN ARKADAŞLIĞI</small><strong>Only us. Always together.</strong></div>
+          </div>
         </div>
-        <!-- Motto -->
-        <p class="mt-3 text-xs sm:text-sm dim-text tracking-widest lowercase">
-            no player plays alone
-        </p>
+
+        <section aria-labelledby="gamesTitle">
+          <div class="section-head">
+            <div><h2 id="gamesTitle">Hangi oyuna giriyoruz?</h2><p class="section-sub">Bir oyun seç, takımını oradan oluşturmaya başla.</p></div>
+            <span class="section-sub" id="selectedLabel">Henüz oyun seçilmedi</span>
+          </div>
+          <div class="game-grid" id="gameGrid">
+            <button class="game-card" data-game="Valorant" aria-pressed="false"><span class="selected-check">✓</span><span class="game-glyph">◎</span><span class="game-name">Valorant</span><span class="game-type">Taktiksel FPS</span></button>
+            <button class="game-card" data-game="Counter-Strike 2" aria-pressed="false"><span class="selected-check">✓</span><span class="game-glyph">⌖</span><span class="game-name">Counter-Strike 2</span><span class="game-type">Rekabetçi FPS</span></button>
+            <button class="game-card" data-game="Fortnite" aria-pressed="false"><span class="selected-check">✓</span><span class="game-glyph">✦</span><span class="game-name">Fortnite</span><span class="game-type">Battle royale</span></button>
+            <button class="game-card" data-game="Minecraft" aria-pressed="false"><span class="selected-check">✓</span><span class="game-glyph">▦</span><span class="game-name">Minecraft</span><span class="game-type">Sandbox · Keşif</span></button>
+            <button class="game-card" data-game="EA SPORTS FC" aria-pressed="false"><span class="selected-check">✓</span><span class="game-glyph">⚽</span><span class="game-name">EA SPORTS FC</span><span class="game-type">Futbol</span></button>
+          </div>
+        </section>
+
+        <div class="action-grid">
+          <article class="action-card"><div><h3>Takım arkadaşını bul</h3><p>Oyununu ve tercihlerini seç. Sana uygun takım deneyiminin ilk adımını oluştur.</p></div><div class="action-symbol" aria-hidden="true">⌕</div></article>
+          <article class="action-card"><div><h3>Birlikte başlamak için lobi kur</h3><p>Oyun planını belirle, lobi bilgilerini hazırla ve arkadaşlarını davet et.</p></div><div class="action-symbol" aria-hidden="true">＋</div></article>
+        </div>
+      </section>
+
+      <section class="panel-view" id="profileView" aria-labelledby="profileTitle">
+        <button class="back" data-back>← Ana sayfaya dön</button>
+        <div class="panel-card">
+          <div class="eyebrow">Oyuncu kartın</div><h2 id="profileTitle">Kendini tanıt.</h2>
+          <p class="lead">NOPPA'da seni tanımak için ilk bilgileri ekle. Bilgilerin bu prototipte yalnızca bu tarayıcıda saklanır.</p>
+          <form id="profileForm">
+            <div class="field"><label for="nickname">Oyuncu adın</label><input id="nickname" name="nickname" maxlength="24" placeholder="Örn. NightOwl" required autocomplete="nickname"></div>
+            <div class="field-grid">
+              <div class="field"><label for="platform">Platform</label><select id="platform" name="platform"><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option><option>Mobil</option></select></div>
+              <div class="field"><label for="playstyle">Oyun tarzın</label><select id="playstyle" name="playstyle"><option value="Rahat ve sosyal">Rahat ve sosyal</option><option value="Rekabetçi">Rekabetçi</option><option value="Yeni öğreniyorum">Yeni öğreniyorum</option><option value="Her tarza açığım">Her tarza açığım</option></select></div>
+            </div>
+            <div class="field"><label for="voice">Sesli iletişim</label><select id="voice" name="voice"><option value="Mikrofon açık">Mikrofon açık</option><option value="Yazılı iletişim">Yazılı iletişim</option><option value="Duruma göre">Duruma göre</option></select></div>
+            <button class="btn btn-primary wide" type="submit">Oyuncu kartını kaydet</button>
+          </form>
+          <div class="notice">Gizlilik notu: Bu sürümde hesap sistemi veya çevrimiçi sunucu bağlantısı yok. Profilin bu cihazdaki tarayıcı hafızasında tutulur.</div>
+        </div>
+      </section>
+
+      <section class="panel-view" id="findView" aria-labelledby="findTitle">
+        <button class="back" data-back>← Ana sayfaya dön</button>
+        <div class="panel-card">
+          <div class="eyebrow">Takımını oluştur</div><h2 id="findTitle">Birlikte oynamaya hazır mısın?</h2>
+          <p class="lead">Oyunu ve nasıl oynamak istediğini seç. NOPPA'nın ilk prototipi tercihlerini hazırlar; gerçek oyuncu eşleştirme servisi henüz bağlanmadı.</p>
+          <div class="field"><label for="findGame">Oyun</label><select id="findGame"><option value="">Oyun seç</option><option>Valorant</option><option>Counter-Strike 2</option><option>Fortnite</option><option>Minecraft</option><option>EA SPORTS FC</option></select></div>
+          <div class="field-grid">
+            <div class="field"><label for="findPlatform">Platform</label><select id="findPlatform"><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option><option>Mobil</option></select></div>
+            <div class="field"><label for="findStyle">Takım tarzı</label><select id="findStyle"><option>Rahat ve sosyal</option><option>Rekabetçi</option><option>Yeni öğreniyorum</option><option>Her tarza açığım</option></select></div>
+          </div>
+          <button class="btn btn-primary wide" id="saveSearch" type="button">Tercihlerimi kaydet</button>
+          <div id="searchResult" class="notice hidden" role="status"></div>
+        </div>
+      </section>
+
+      <section class="panel-view" id="roomView" aria-labelledby="roomTitle">
+        <button class="back" data-back>← Ana sayfaya dön</button>
+        <div class="panel-card">
+          <div class="eyebrow">Birlikte giriyoruz</div><h2 id="roomTitle">Lobini hazırla.</h2>
+          <p class="lead">Oyun planını belirle. Bu prototip bir lobi kartı ve davet kodu oluşturur; kod henüz başka cihazlardan katılım sağlamaz.</p>
+          <div class="field"><label for="roomGame">Oyun</label><select id="roomGame"><option value="">Oyun seç</option><option>Valorant</option><option>Counter-Strike 2</option><option>Fortnite</option><option>Minecraft</option><option>EA SPORTS FC</option></select></div>
+          <div class="field-grid">
+            <div class="field"><label for="roomSize">Takım büyüklüğü</label><select id="roomSize"><option>2 oyuncu</option><option selected>3 oyuncu</option><option>4 oyuncu</option><option>5 oyuncu</option></select></div>
+            <div class="field"><label for="roomMood">Oyun planı</label><select id="roomMood"><option>Rahat oyun</option><option>Dereceli / rekabetçi</option><option>Görev / keşif</option><option>Özel maç</option></select></div>
+          </div>
+          <button class="btn btn-primary wide" id="createRoom" type="button">Lobi kartı oluştur</button>
+          <div id="roomResult" class="hidden" role="status"></div>
+        </div>
+      </section>
     </main>
 
-    <!-- En Alt Güvence Notu -->
-    <footer class="w-full text-center pb-2 transition-opacity duration-700" id="footerText">
-        <div class="flex justify-center space-x-6 text-[11px] sm:text-xs dim-text lowercase tracking-wide">
-            <span>açık kaynak kod güvencesi</span>
-            <span>•</span>
-            <span>cihaz tabanlı şifreleme</span>
-        </div>
-    </footer>
+    <footer><span class="footer-brand">NOPPA · ONLY US</span><span>No player plays alone. Hiçbir oyuncu yalnız oynamaz.</span><span>İlk çalışan arayüz prototipi</span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script>
-        document.getElementById('startBtn').addEventListener('click', function() {
-            // 1. Dokunsal Senkronizasyon (Haptic Feedback - Tık-tık ritmi)
-            if (window.navigator && window.navigator.vibrate) {
-                window.navigator.vibrate([40, 60, 40]);
-            }
-
-            // 2. Yazıları pürüzsüzce sil
-            document.getElementById('startBtn').style.opacity = '0';
-            document.getElementById('footerText').style.opacity = '0';
-
-            // 3. Işık Patlaması ve Kalp Atışı Geçiş Ritmi (2.5 Saniye)
-            const flash = document.getElementById('flashOverlay');
-            setTimeout(() => {
-                flash.classList.add('flash-active');
-            }, 100);
-
-            // 4. Ritmin Sonunda Öz İfade Katmanına ("tam şu an.") Geçiş Simülasyonu
-            setTimeout(() => {
-                alert("tünel açılıyor: 'tam şu an.' katmanına geçildi.");
-                location.reload(); // Test için sayfayı yeniler
-            }, 2600);
-        });
-    </script>
+  <script>
+    (function(){
+      "use strict";
+      var selectedGame = "";
+      var views = ["homeView","profileView","findView","roomView"];
+      var toastTimer;
+      function $(id){return document.getElementById(id);}
+      function read(key,fallback){try{var value=localStorage.getItem(key);return value?JSON.parse(value):fallback;}catch(e){return fallback;}}
+      function write(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch(e){return false;}}
+      function toast(message){var el=$("toast");el.textContent=message;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove("show");},3200);}
+      function showView(id){views.forEach(function(view){$(view).classList.toggle("active",view===id);});$("homeView").classList.toggle("hidden",id!=="homeView");window.scrollTo({top:0,behavior:"smooth"});}
+      function home(){showView("homeView");}
+      function profile(){var p=read("noppa.profile",{});$("nickname").value=p.nickname||"";$("platform").value=p.platform||"PC";$("playstyle").value=p.playstyle||"Rahat ve sosyal";$("voice").value=p.voice||"Mikrofon açık";showView("profileView");}
+      function setGame(game){selectedGame=game;document.querySelectorAll(".game-card").forEach(function(card){var on=card.getAttribute("data-game")===game;card.classList.toggle("selected",on);card.setAttribute("aria-pressed",on?"true":"false");});$("selectedLabel").textContent=game?"Seçili: "+game:"Henüz oyun seçilmedi";if(game){$("findGame").value=game;$("roomGame").value=game;}}
+      function requireProfile(next){var p=read("noppa.profile",null);if(!p||!p.nickname){toast("Önce oyuncu kartını oluştur.");profile();return;}next();}
+      $("homeLink").addEventListener("click",function(e){e.preventDefault();home();});
+      $("profileOpen").addEventListener("click",profile);
+      $("findStart").addEventListener("click",function(){requireProfile(function(){$("findGame").value=selectedGame;showView("findView");});});
+      $("roomStart").addEventListener("click",function(){requireProfile(function(){$("roomGame").value=selectedGame;showView("roomView");});});
+      document.querySelectorAll("[data-back]").forEach(function(button){button.addEventListener("click",home);});
+      document.querySelectorAll(".game-card").forEach(function(card){card.addEventListener("click",function(){setGame(card.getAttribute("data-game"));});});
+      $("profileForm").addEventListener("submit",function(e){e.preventDefault();var nickname=$("nickname").value.trim();if(!nickname){toast("Oyuncu adını yaz.");return;}var p={nickname:nickname,platform:$("platform").value,playstyle:$("playstyle").value,voice:$("voice").value,updatedAt:new Date().toISOString()};if(!write("noppa.profile",p)){toast("Tarayıcı hafızasına kaydedilemedi.");return;}toast("Oyuncu kartın bu cihazda kaydedildi.");home();});
+      $("saveSearch").addEventListener("click",function(){var game=$("findGame").value;if(!game){toast("Önce bir oyun seç.");return;}var prefs={game:game,platform:$("findPlatform").value,style:$("findStyle").value,createdAt:new Date().toISOString()};write("noppa.search",prefs);var result=$("searchResult");result.classList.remove("hidden");result.innerHTML="<strong>Tercihlerin hazır.</strong><br>"+escapeHtml(game)+" · "+escapeHtml(prefs.platform)+" · "+escapeHtml(prefs.style)+"<br><br>Bu prototipte henüz çevrimiçi oyuncu araması yapılmıyor. Gerçek eşleşme için sunucu ve oyuncu hesapları bağlanacak.";});
+      $("createRoom").addEventListener("click",function(){var game=$("roomGame").value;if(!game){toast("Lobi için bir oyun seç.");return;}var code=Math.random().toString(36).slice(2,6).toUpperCase()+"-"+Math.random().toString(36).slice(2,4).toUpperCase();var room={code:code,game:game,size:$("roomSize").value,mood:$("roomMood").value,host:(read("noppa.profile",{}).nickname||"Oyuncu"),createdAt:new Date().toISOString()};var rooms=read("noppa.rooms",[]);rooms.unshift(room);write("noppa.rooms",rooms.slice(0,10));var result=$("roomResult");result.classList.remove("hidden");result.innerHTML='<div class="result-icon">＋</div><h2 style="font-size:24px;margin:0 0 8px">Lobi kartın hazır.</h2><p class="lead" style="margin-bottom:10px">Bu cihazda oluşturuldu. Gerçek davet ve diğer oyuncuların katılması için çevrimiçi servis henüz bağlı değil.</p><div class="room-code">'+escapeHtml(code)+'</div><p class="section-sub">'+escapeHtml(game)+' · '+escapeHtml(room.size)+' · '+escapeHtml(room.mood)+'</p><button class="btn btn-secondary wide" id="copyCode" type="button">Davet kodunu kopyala</button><div class="notice"><strong>Prototip notu:</strong> Bu kod gerçek bir çevrimiçi odaya bağlanmaz.</div>';var copy=$("copyCode");copy.addEventListener("click",function(){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(function(){toast("Kod kopyalandı.");}).catch(function(){toast("Kodun: "+code);});}else{toast("Kodun: "+code);}});});
+      function escapeHtml(value){return String(value).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+      var saved=read("noppa.profile",null);if(saved&&saved.nickname){$("profileOpen").textContent=saved.nickname;}
+      var lastSearch=read("noppa.search",null);if(lastSearch){$("findGame").value=lastSearch.game||"";$("findPlatform").value=lastSearch.platform||"PC";$("findStyle").value=lastSearch.style||"Rahat ve sosyal";}
+    })();
+  </script>
 </body>
 </html>
